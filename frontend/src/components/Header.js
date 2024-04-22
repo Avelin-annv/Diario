@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <Navbar expand="lg" className="bg-primary" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">Diario</Navbar.Brand>
+        <Navbar.Brand href="/home">Diario</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="m-auto">
@@ -33,7 +33,7 @@ const Header = () => {
             </Form>
           </Nav>
           <Nav className="">
-            <Nav.Link href="#home">My notes</Nav.Link>
+            <Nav.Link href="/notes">My notes</Nav.Link>
             <NavDropdown title="Avelin" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.2">Profile</NavDropdown.Item>
               <NavDropdown.Divider />

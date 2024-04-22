@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "npm test",
-    "start": "nodemon backend/server.js"
+    "start": "nodemon backend/server.js --ignore client",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm start\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -18,8 +20,10 @@
   },
   "homepage": "https://github.com/Avelin-annv/Diario#readme",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mongoose": "^8.3.2",
     "nodemon": "^3.1.0"
   }
 }
