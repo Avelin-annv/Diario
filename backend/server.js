@@ -1,7 +1,17 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const notes = require("./Data/notesData");
+const userRoutes = require("./routes/userRoutes");
+const connectDB = require("./config/db");
+const { notFound, errorHandler } = require("./middlewares/errorMiddlewares");
 dotenv.config();
+connectDB();
 const app = express();
+app.use(express.json());
 const PORT = process.env.PORT || 5000;
-app.get("/", (req, res) => res.send("data"));
+app.get("/", (req, res) => res.send("Api is running"));
+app.get("/api/notes", (req, res) => res.send(notes));
+app.use("/api/user", userRoutes);
+app.use(notFound);
+app.use(errorHandler);
 app.listen(PORT, () => console.log(`server started at ${PORT}`));
