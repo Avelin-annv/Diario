@@ -37,7 +37,12 @@ const Header = () => {
             <NavDropdown title="Avelin" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.2">Profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.3">Logout</NavDropdown.Item>
+              <NavDropdown.Item
+                href="/"
+                onClick={() => localStorage.removeItem("userInfo")}
+              >
+                Logout
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
