@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "../App.css";
-import axios from "axios";
 import Loader from "../components/Loader";
 import Toast from "../components/Toast";
 import {
@@ -13,44 +12,43 @@ import {
   LANDING_HEADER,
   LANDING_NAVIGATE_BTN_TEXT,
   LANDING_NAVIGATE_URLS,
-  LANDING_URLS,
+  LOADING,
 } from "../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { authenticateUser } from "../store/userSlice";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState();
-  const { action } = useParams();
 
+  const { action } = useParams();
+  const { userInfo, status, errors } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const formData =
-        action === "signup"
-          ? {
-              name,
-              email,
-              password,
-            }
-          : {
-              email,
-              password,
-            };
-      const { data } = await axios.post(LANDING_URLS[action], formData, CONFIG);
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      navigate("/home");
-    } catch (e) {
-      setErrors(e?.message);
-    }
-    setLoading(false);
+    const formData =
+      action === "signup"
+        ? {
+            name,
+            email,
+            password,
+          }
+        : {
+            email,
+            password,
+          };
+    dispatch(authenticateUser({ formData, action }));
   };
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/home");
+    }
+  }, [userInfo]);
   return (
     <div className="signup-container">
-      {loading ? (
+      {status === LOADING ? (
         <Loader />
       ) : (
         <div className="signup-wrapper">
@@ -75,6 +73,7 @@ const SignUpPage = () => {
                 placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="current-password"
               />
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.

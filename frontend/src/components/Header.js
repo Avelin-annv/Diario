@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -6,10 +7,15 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { logoutUser } from "../store/userSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logoutUser);
+  };
+
   return (
     <Navbar expand="lg" className="bg-primary" variant="dark">
       <Container>
@@ -37,10 +43,7 @@ const Header = () => {
             <NavDropdown title="Avelin" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.2">Profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item
-                href="/"
-                onClick={() => localStorage.removeItem("userInfo")}
-              >
+              <NavDropdown.Item href="/" onClick={handleLogout}>
                 Logout
               </NavDropdown.Item>
             </NavDropdown>
