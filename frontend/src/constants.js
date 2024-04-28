@@ -29,3 +29,7 @@ export const CONFIG = {
     "content-type": "application/json",
   },
 };
+export const LOADING = "loading";
+export const SUCCESS = "success";
+export const FAILED = "failed";
+export const IDLE = "idle";
