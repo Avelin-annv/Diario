@@ -21,7 +21,20 @@ const createNote = asyncHandler(async (req, res) => {
     throw new Error("Note cannot be empty");
   }
 });
-const deleteNoteById = asyncHandler(async (req, res) => {});
+const deleteNoteById = asyncHandler(async (req, res) => {
+  const note = await Note.findById(req.params.id);
+  if (note.user.toString() !== req.user._id.toString()) {
+    res.status(401);
+    throw new Error("You don't have permission for this action");
+  }
+  if (note) {
+    await note.deleteOne();
+    res.json({ message: "Deleted successfully" });
+  } else {
+    res.status(404);
+    throw new Error("The resource you've requested is not found.");
+  }
+});
 const updateNote = asyncHandler(async (req, res) => {
   const { title, content, category } = req.body;
   const note = await Note.findById(req.params.id);
@@ -30,9 +43,11 @@ const updateNote = asyncHandler(async (req, res) => {
     throw new Error("You don't have permission for this action");
   }
   if (note) {
-    note = { title, category, content };
+    note.title = title;
+    note.category = category;
+    note.content = content;
     const updatedNote = await note.save();
-    res.json(updateNote);
+    res.json(updatedNote);
   } else {
     res.status(404);
     throw new Error("The resource you've requested is not found.");
