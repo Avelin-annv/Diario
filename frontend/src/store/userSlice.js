@@ -23,7 +23,6 @@ export const authenticateUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   "user/logout",
   async function ({}, { dispatch }) {
-    localStorage.removeItem("userInfo");
     dispatch(removeUser());
   }
 );
