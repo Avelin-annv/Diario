@@ -33,3 +33,7 @@ export const LOADING = "loading";
 export const SUCCESS = "success";
 export const FAILED = "failed";
 export const IDLE = "idle";
+export const NOTE_HEADERS = {
+  create: "Create new note",
+  edit: "Edit your note",
+};

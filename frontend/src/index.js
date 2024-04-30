@@ -7,11 +7,10 @@ import "./bootstrap.min.css";
 import App from "./App";
 import LandingPage from "./pages/landingPage/LandingPage";
 import MyNotesPage from "./pages/MyNotesPage";
-import Home from "./pages/Home";
-import Note from "./components/Note";
 import SignUpPage from "./pages/SignUpPage";
 import appStore from "./store/appStore";
-import NewNote from "./components/NewNote";
+import SingleNote from "./components/SingleNote";
+import CategoriesPage from "./pages/CategoriesPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const appRouter = createBrowserRouter([
@@ -21,10 +20,9 @@ const appRouter = createBrowserRouter([
     children: [
       { path: "/", element: <LandingPage /> },
       { path: "/notes", element: <MyNotesPage /> },
-      { path: "/home", element: <Home /> },
-      { path: "/note/:id", element: <Note /> },
+      { path: "/category", element: <CategoriesPage /> },
       { path: "/:action", element: <SignUpPage /> },
-      { path: "/notes/create", element: <NewNote /> },
+      { path: "/note/:id/:action", element: <SingleNote /> },
     ],
   },
 ]);
