@@ -37,13 +37,31 @@ export const fetchNoteById = createAsyncThunk("note/get", async (noteId) => {
 });
 export const editNote = createAsyncThunk(
   "note/edit",
-  async (formData, noteId) => {
+  async ({ formData, id }) => {
     try {
       const { data } = await axios.put(
-        `/api/notes/${noteId}`,
+        `/api/notes/${id}`,
         formData,
-        getApiConfig
+        getApiConfig()
       );
+      return data;
+    } catch (e) {
+      handleError(e);
+    }
+  }
+);
+export const deleteNote = createAsyncThunk(
+  "note/delete",
+  async (noteId, { dispatch }) => {
+    try {
+      const { data } = await axios.delete(
+        `/api/notes/${noteId}`,
+        getApiConfig()
+      );
+
+      dispatch(clearSelectedNote());
+      dispatch(fetchAllNotes());
+
       return data;
     } catch (e) {
       handleError(e);

@@ -8,10 +8,11 @@ import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import "../App.css";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllNotes } from "../store/notesSlice";
+import { deleteNote, fetchAllNotes } from "../store/notesSlice";
 import { LOADING } from "../constants";
 import Loader from "../components/Loader";
 import Toast from "../components/Toast";
+import { handleError } from "../utils/handleError";
 
 const MyNotesPage = () => {
   const dispatch = useDispatch();
@@ -24,9 +25,15 @@ const MyNotesPage = () => {
     getNoteData();
   }, []);
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this note?"))
-      console.log("delete note");
+    if (window.confirm("Are you sure you want to delete this note?")) {
+      try {
+        dispatch(deleteNote(id));
+      } catch (e) {
+        handleError(e);
+      }
+    }
   };
+
   return (
     <MainContainer title={"Your notes"}>
       {errors && <Toast variant="danger" content={errors} />}
@@ -35,7 +42,7 @@ const MyNotesPage = () => {
       ) : (
         <>
           <Button className="my-4" size="lg">
-            <Link to="/notes/create" text>
+            <Link to="/note/new/create" text>
               {" "}
               Create new Note
             </Link>
@@ -43,7 +50,7 @@ const MyNotesPage = () => {
 
           <Accordion className="">
             {notes?.map((note, index) => (
-              <Accordion.Item eventKey={index} key={note.id} className="my-2">
+              <Accordion.Item eventKey={index} key={note._id} className="my-2">
                 <Card>
                   <Accordion.Header>
                     <div className="accordion-header">
@@ -52,15 +59,14 @@ const MyNotesPage = () => {
                       </Card.Header>
 
                       <div className=" mx-2">
-                        <Link to={`/note/${note.id}`}>
-                          <Button variant="primary" className="mx-2">
-                            Edit
-                          </Button>
-                        </Link>
+                        <Button variant="primary" className="mx-2">
+                          <Link to={`/note/${note._id}/edit`}>Edit</Link>
+                        </Button>
+
                         <Button
                           variant="danger"
                           className="mx-2"
-                          onClick={() => handleDelete(note.id)}
+                          onClick={() => handleDelete(note._id)}
                         >
                           Delete
                         </Button>
@@ -69,7 +75,9 @@ const MyNotesPage = () => {
                   </Accordion.Header>
                   <Accordion.Body>
                     <Card.Body>
-                      <Badge bg="info">{note.category}</Badge>
+                      <Badge bg="info">
+                        {note.category ? note.category : "default"}
+                      </Badge>
                       <blockquote className="blockquote mb-0">
                         <p> {note.content}</p>
                         <footer className="blockquote-footer">
