@@ -43,7 +43,7 @@ const SignUpPage = () => {
   };
   useEffect(() => {
     if (userInfo) {
-      navigate("/home");
+      navigate("/notes");
     }
   }, [userInfo]);
   return (
