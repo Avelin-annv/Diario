@@ -32,6 +32,7 @@ const authenticateUser = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       name: user.name,
+      email: user.email,
       token: generateToken(user._id),
     });
   } else {
@@ -39,4 +40,19 @@ const authenticateUser = asyncHandler(async (req, res) => {
     throw new Error("Incorrect email or password");
   }
 });
-module.exports = { registerUser, authenticateUser };
+const updateUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.password = password || user.password;
+    const updatedUser = await user.save();
+    res.json(updatedUser);
+  } else {
+    res.status(404);
+    throw new Error("The resource you've requested is not found.");
+  }
+});
+module.exports = { registerUser, authenticateUser, updateUser };
