@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import MainContainer from "../components/MainContainer";
 import Card from "react-bootstrap/Card";
@@ -17,7 +17,13 @@ import { handleError } from "../utils/handleError";
 const MyNotesPage = () => {
   const dispatch = useDispatch();
   const { notes, status, errors } = useSelector((store) => store.note);
-
+  const [searchText] = useOutletContext();
+  const searchNotes = (item) => {
+    return (
+      item.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.category.toLowerCase().includes(searchText.toLowerCase())
+    );
+  };
   const getNoteData = async () => {
     dispatch(fetchAllNotes());
   };
@@ -33,7 +39,6 @@ const MyNotesPage = () => {
       }
     }
   };
-
   return (
     <MainContainer title={"Your notes"}>
       {errors && <Toast variant="danger" content={errors} />}
@@ -49,7 +54,7 @@ const MyNotesPage = () => {
           </Button>
 
           <Accordion className="">
-            {notes?.map((note, index) => (
+            {notes.filter(searchNotes).map((note, index) => (
               <Accordion.Item eventKey={index} key={note._id} className="my-2">
                 <Card>
                   <Accordion.Header>

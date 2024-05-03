@@ -45,3 +45,11 @@ a {
   color: white;
   text-decoration: none;
 }
+@media (min-width: 768px) {
+  .profile-form {
+    width: 50%;
+  }
+  .header-search {
+    width: 400px;
+  }
+}

@@ -10,9 +10,11 @@ import {
   editNote,
   fetchNoteById,
   clearSelectedNote,
+  deleteNote,
 } from "../store/notesSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { NOTE_HEADERS } from "../constants";
+import { handleError } from "../utils/handleError";
 
 const SingleNote = () => {
   const dispatch = useDispatch();
@@ -22,7 +24,16 @@ const SingleNote = () => {
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
   const { selectedNote } = useSelector((store) => store.note);
-
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this note?")) {
+      try {
+        dispatch(deleteNote(id));
+        navigate("/mynotes");
+      } catch (e) {
+        handleError(e);
+      }
+    }
+  };
   const fetchNoteInfo = async () => {
     dispatch(fetchNoteById(id));
   };
@@ -106,9 +117,18 @@ const SingleNote = () => {
             <Button variant="primary" onClick={handlesubmit}>
               Save
             </Button>
-            <Button variant="danger" onClick={resetFields}>
+            <Button variant="warning" onClick={resetFields}>
               Reset fields
             </Button>
+            {action === "edit" && (
+              <Button
+                variant="danger"
+                className="mx-2"
+                onClick={() => handleDelete(id)}
+              >
+                Delete
+              </Button>
+            )}
           </Card.Footer>
         </Card.Body>
       </Card>

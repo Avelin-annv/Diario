@@ -1,54 +1,72 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { logoutUser } from "../store/userSlice";
+import Badge from "react-bootstrap/esm/Badge";
 
-const Header = () => {
+const Header = ({ searchText, setSearchText }) => {
   const dispatch = useDispatch();
+
+  const { userInfo } = useSelector((store) => store.user);
   const handleLogout = () => {
+    localStorage.removeItem("userInfo");
     dispatch(logoutUser);
   };
 
   return (
     <Navbar expand="lg" className="bg-primary" variant="dark">
       <Container>
-        <Navbar.Brand href="/home">Diario</Navbar.Brand>
+        <Navbar.Brand href="#">
+          <Link to={"/notes"}>Diario</Link>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="m-auto">
-            <Form inline>
-              <Row>
-                <Col xs="auto">
-                  <Form.Control
-                    type="text"
-                    placeholder="Search for what you've left off"
-                    className=" mr-sm-2"
-                  />
-                </Col>
-                <Col xs="auto">
-                  <Button type="submit">Search</Button>
-                </Col>
-              </Row>
-            </Form>
-          </Nav>
-          <Nav className="">
-            <Nav.Link href="/notes">My notes</Nav.Link>
-            <NavDropdown title="Avelin" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.2">Profile</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/" onClick={handleLogout}>
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
+        {userInfo && (
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="m-auto">
+              <Form inline className="header-search">
+                <Row>
+                  <Col xs="auto" className="w-100">
+                    <Form.Control
+                      type="text"
+                      value={searchText}
+                      placeholder="Search for what you've left off"
+                      className=" mr-sm-2"
+                      onChange={(e) => setSearchText(e.target.value)}
+                    />
+                  </Col>
+                </Row>
+              </Form>
+            </Nav>
+            <Nav className="">
+              <Nav.Link href="#">
+                <Badge pill>New!</Badge>
+                <Link to="/draw" className="h5">
+                  Draw 🎨
+                </Link>
+              </Nav.Link>
+
+              <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                <NavDropdown.Item href="#">
+                  <Link to={"/userProfile"} className="text-black">
+                    Profile
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+
+                <NavDropdown.Item href="/" onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        )}
       </Container>
     </Navbar>
   );
