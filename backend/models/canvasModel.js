@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const canvasSchema =
-  ({
+const canvasSchema = mongoose.Schema(
+  {
     title: {
       type: String,
       required: true,
@@ -10,13 +10,15 @@ const canvasSchema =
       type: String,
       required: true,
     },
-    createdBy: {
-      type: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "User",
     },
   },
   {
     timestamps: true,
-  });
-const Canvas = mongoose.model(canvasSchema, "Canvas");
+  }
+);
+const Canvas = mongoose.model("Canvas", canvasSchema);
 module.exports = Canvas;

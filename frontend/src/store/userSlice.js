@@ -8,6 +8,8 @@ import {
   LOADING,
   SUCCESS,
 } from "../constants";
+import { getApiConfig } from "../utils/getApiConfig";
+import { handleError } from "../utils/handleError";
 export const authenticateUser = createAsyncThunk(
   "user/login",
   async function ({ formData, action }) {
@@ -26,7 +28,22 @@ export const logoutUser = createAsyncThunk(
     dispatch(removeUser());
   }
 );
-
+export const editUserDetails = createAsyncThunk(
+  "user/edit",
+  async ({ formData, id }, { dispatch }) => {
+    try {
+      const { data } = await axios.put(
+        `/api/user/${id}`,
+        formData,
+        getApiConfig()
+      );
+      dispatch(addUser(data));
+      // return data;
+    } catch (e) {
+      handleError(e);
+    }
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState: {
