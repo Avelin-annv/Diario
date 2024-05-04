@@ -53,3 +53,8 @@ a {
     width: 400px;
   }
 }
+.canvas-wrapper {
+  border: 5px solid black;
+  border-radius: 10px;
+  min-width: fit-content;
+}

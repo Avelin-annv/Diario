@@ -10,7 +10,8 @@ import MyNotesPage from "./pages/MyNotesPage";
 import SignUpPage from "./pages/SignUpPage";
 import appStore from "./store/appStore";
 import SingleNote from "./components/SingleNote";
-import CategoriesPage from "./pages/CategoriesPage";
+import Profile from "./components/Profile";
+import Draw from "./components/Draw";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const appRouter = createBrowserRouter([
@@ -20,9 +21,10 @@ const appRouter = createBrowserRouter([
     children: [
       { path: "/", element: <LandingPage /> },
       { path: "/notes", element: <MyNotesPage /> },
-      { path: "/category", element: <CategoriesPage /> },
+      { path: "/draw", element: <Draw /> },
       { path: "/:action", element: <SignUpPage /> },
       { path: "/note/:id/:action", element: <SingleNote /> },
+      { path: "/userprofile", element: <Profile /> },
     ],
   },
 ]);

@@ -1,26 +1,43 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
 import MainContainer from "./MainContainer";
 import Button from "react-bootstrap/esm/Button";
+import { editUserDetails } from "../store/userSlice";
+import { handleError } from "../utils/handleError";
 
 const Profile = () => {
   const [changePswd, setChangePswd] = useState(false);
   const { userInfo } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [prevpassword, setPrevPassword] = useState("");
+  const [prevPassword, setPrevPassword] = useState("");
   const [password, setPassword] = useState("");
+  console.log("name and email", name);
   const handleSave = (e) => {
     e.preventDefault();
-    if (prevpassword !== password) {
+    if (prevPassword !== password) {
       return;
-      // throw new Error("Passwords do not match");
+    }
+    try {
+      const formData = { name, email, password };
+      dispatch(editUserDetails({ formData, id: userInfo._id }));
+    } catch (e) {
+      handleError(e);
     }
   };
+
+  const setUserData = () => {
+    setName(userInfo.name);
+    setEmail(userInfo.email);
+  };
+  useEffect(() => {
+    userInfo && setUserData();
+  }, []);
   return (
     <MainContainer title={"Edit your profile"}>
-      <Form>
+      <Form className="profile-form">
         <Form.Group className="mb-3" controlId="username">
           <Form.Label>User name</Form.Label>
           <Form.Control
@@ -53,7 +70,7 @@ const Profile = () => {
               <Form.Control
                 type="password"
                 placeholder="Enter your current password"
-                value={prevpassword}
+                value={prevPassword}
                 onChange={(e) => setPrevPassword(e.target.value)}
               />
             </Form.Group>
@@ -66,11 +83,11 @@ const Profile = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
-            <Button type="submit" onClick={(e) => handleSave(e)}>
-              Save changes
-            </Button>
           </>
         )}
+        <Button type="submit" onClick={(e) => handleSave(e)}>
+          Save changes
+        </Button>
       </Form>
     </MainContainer>
   );

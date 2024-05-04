@@ -37,3 +37,4 @@ export const NOTE_HEADERS = {
   create: "Create new note",
   edit: "Edit your note",
 };
+export const BLACK_HEX = "#000000";
