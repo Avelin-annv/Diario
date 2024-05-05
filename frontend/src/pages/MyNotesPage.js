@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import axios from "axios";
 import MainContainer from "../components/MainContainer";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
@@ -13,6 +12,8 @@ import { LOADING } from "../constants";
 import Loader from "../components/Loader";
 import Toast from "../components/Toast";
 import { handleError } from "../utils/handleError";
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
 
 const MyNotesPage = () => {
   const dispatch = useDispatch();
@@ -58,25 +59,28 @@ const MyNotesPage = () => {
               <Accordion.Item eventKey={index} key={note._id} className="my-2">
                 <Card>
                   <Accordion.Header>
-                    <div className="accordion-header">
-                      <Card.Header>
-                        <p>{note.title}</p>
-                      </Card.Header>
+                    <Row className="accordion-header">
+                      <Col lg={10}>
+                        <Card.Header>
+                          <p>{note.title}</p>
+                        </Card.Header>
+                      </Col>
+                      <Col>
+                        <div className=" mx-2">
+                          <Button variant="primary" className="mx-2">
+                            <Link to={`/note/${note._id}/edit`}>Edit</Link>
+                          </Button>
 
-                      <div className=" mx-2">
-                        <Button variant="primary" className="mx-2">
-                          <Link to={`/note/${note._id}/edit`}>Edit</Link>
-                        </Button>
-
-                        <Button
-                          variant="danger"
-                          className="mx-2"
-                          onClick={() => handleDelete(note._id)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </div>
+                          <Button
+                            variant="danger"
+                            className="mx-2"
+                            onClick={() => handleDelete(note._id)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </Col>
+                    </Row>
                   </Accordion.Header>
                   <Accordion.Body>
                     <Card.Body>

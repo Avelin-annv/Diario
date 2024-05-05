@@ -9,7 +9,6 @@ import {
   SUCCESS,
 } from "../constants";
 import { getApiConfig } from "../utils/getApiConfig";
-import { handleError } from "../utils/handleError";
 export const authenticateUser = createAsyncThunk(
   "user/login",
   async function ({ formData, action }) {
@@ -30,17 +29,17 @@ export const logoutUser = createAsyncThunk(
 );
 export const editUserDetails = createAsyncThunk(
   "user/edit",
-  async ({ formData, id }, { dispatch }) => {
+  async ({ formData, id }) => {
     try {
       const { data } = await axios.put(
         `/api/user/${id}`,
         formData,
         getApiConfig()
       );
-      dispatch(addUser(data));
-      // return data;
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      return data;
     } catch (e) {
-      handleError(e);
+      throw new Error(e?.response?.statusText || e?.message);
     }
   }
 );
@@ -77,6 +76,15 @@ const userSlice = createSlice({
       .addCase(authenticateUser.rejected, (state, action) => {
         state.status = FAILED;
         state.errors = action.error.message;
+      })
+      .addCase(editUserDetails.fulfilled, (state, action) => {
+        state.status = SUCCESS;
+        state.userInfo = action.payload;
+      })
+
+      .addCase(editUserDetails.rejected, (state, action) => {
+        state.status = FAILED;
+        state.errors = action?.error.message;
       });
   },
 });

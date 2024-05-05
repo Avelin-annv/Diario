@@ -10,17 +10,26 @@ import Button from "react-bootstrap/esm/Button";
 import DrawList from "./DrawList";
 import { imgJson } from "../imgData";
 import { BLACK_HEX } from "../constants";
+import { useDispatch } from "react-redux";
+import { createNewCanvas } from "../store/canvasSlice";
+import { handleError } from "../utils/handleError";
 
 const Draw = () => {
   const canvasStageRef = useRef(null);
+  const isDrawing = React.useRef(false);
+  const dispatch = useDispatch();
   const [color, setColor] = useState(BLACK_HEX);
   const [title, setTitle] = useState("");
   const [tool, setTool] = React.useState("pen");
   const [lines, setLines] = React.useState([]);
-  const isDrawing = React.useRef(false);
+
   const handleSaveCanvas = () => {
-    const drawing = canvasStageRef.current.toJSON();
-    console.log(drawing, "drawing");
+    try {
+      const canvasJson = canvasStageRef.current.toJSON();
+      if (canvasJson) dispatch(createNewCanvas({ canvasJson, title }));
+    } catch (e) {
+      handleError(e);
+    }
   };
   const handleMouseDown = (e) => {
     isDrawing.current = true;
@@ -43,9 +52,7 @@ const Draw = () => {
   const handleMouseUp = () => {
     isDrawing.current = false;
   };
-  useEffect(() => {
-    Konva.Node.create(imgJson, "canvas-container");
-  }, []);
+
   return (
     <MainContainer title={"Create your drawings"} className="bg-black">
       <Row>
