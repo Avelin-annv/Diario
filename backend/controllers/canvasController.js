@@ -9,7 +9,7 @@ const createCanvas = asyncHandler(async (req, res) => {
   const { title, canvasJson } = req.body;
   if (title || canvasJson) {
     const canvas = await new Canvas({
-      createdBy: req.user._id,
+      user: req.user._id,
       title,
       canvasJson,
     });

@@ -41,15 +41,25 @@ const authenticateUser = asyncHandler(async (req, res) => {
   }
 });
 const updateUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, prevPassword } = req.body;
   const user = await User.findById(req.params.id);
-
+  if (password) {
+    if (!(await user.matchpassword(prevPassword))) {
+      res.status(404);
+      throw new Error("passwords don't match");
+    }
+  }
   if (user) {
     user.name = name || user.name;
     user.email = email || user.email;
     user.password = password || user.password;
     const updatedUser = await user.save();
-    res.json(updatedUser);
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      token: generateToken(updatedUser._id),
+    });
   } else {
     res.status(404);
     throw new Error("The resource you've requested is not found.");
