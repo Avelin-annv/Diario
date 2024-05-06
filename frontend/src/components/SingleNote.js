@@ -23,6 +23,7 @@ const SingleNote = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
+  const [isMarkdown, setIsMarkdown] = useState(true);
   const { selectedNote } = useSelector((store) => store.note);
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this note?")) {
@@ -45,7 +46,9 @@ const SingleNote = () => {
         ? dispatch(createNewNote(formData))
         : dispatch(editNote({ formData, id }));
       navigate("/notes");
-    } catch (e) {}
+    } catch (e) {
+      handleError(e);
+    }
   };
   const resetFields = () => {
     setTitle("");
@@ -68,6 +71,26 @@ const SingleNote = () => {
   return (
     <MainContainer title={NOTE_HEADERS[action]}>
       <Card>
+        <div style={{ display: "inline-block" }}>
+          <Form.Text>
+            ℹ️ We support{" "}
+            <a
+              href="https://en.wikipedia.org/wiki/Markdown"
+              className="text-black"
+            >
+              Markdown
+            </a>{" "}
+            by default.To disable/enable please use
+          </Form.Text>
+          <Button
+            size="sm p-1 m-1"
+            variant="secondary"
+            onClick={() => setIsMarkdown(!isMarkdown)}
+          >
+            {isMarkdown ? "Disable markdown" : "Enable markdown "}
+          </Button>
+        </div>
+
         <Card.Body>
           <Card.Title>Jot down ideas</Card.Title>
           <Card.Text>
@@ -94,6 +117,7 @@ const SingleNote = () => {
 
               <Form.Group className="mb-3" controlId="notecontent">
                 <Form.Label>Content</Form.Label>
+
                 <Form.Control
                   as="textarea"
                   type="string"
@@ -103,7 +127,7 @@ const SingleNote = () => {
                   onChange={(e) => setContent(e.target.value)}
                 />
               </Form.Group>
-              {content && (
+              {content && isMarkdown && (
                 <Card>
                   <Card.Header>Preview</Card.Header>
                   <Card.Body>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -10,16 +10,17 @@ import Col from "react-bootstrap/Col";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { logoutUser } from "../store/userSlice";
 import Badge from "react-bootstrap/esm/Badge";
+import { NOTES_LOCATION } from "../constants";
 
 const Header = ({ searchText, setSearchText }) => {
   const dispatch = useDispatch();
-
+  let location = useLocation();
   const { userInfo } = useSelector((store) => store.user);
   const handleLogout = () => {
     localStorage.removeItem("userInfo");
     dispatch(logoutUser);
   };
-
+  console.log("loccc", location);
   return (
     <Navbar expand="lg" className="bg-primary" variant="dark">
       <Container>
@@ -32,22 +33,24 @@ const Header = ({ searchText, setSearchText }) => {
             <Nav className="m-auto">
               <Form inline className="header-search">
                 <Row>
-                  <Col xs="auto" className="w-100">
-                    <Form.Control
-                      type="text"
-                      value={searchText}
-                      placeholder="Search for what you've left off"
-                      className=" mr-sm-2"
-                      onChange={(e) => setSearchText(e.target.value)}
-                    />
-                  </Col>
+                  {location.pathname === NOTES_LOCATION && (
+                    <Col xs="auto" className="w-100">
+                      <Form.Control
+                        type="text"
+                        value={searchText}
+                        placeholder="Search for what you've left off"
+                        className=" mr-sm-2"
+                        onChange={(e) => setSearchText(e.target.value)}
+                      />
+                    </Col>
+                  )}
                 </Row>
               </Form>
             </Nav>
             <Nav className="">
               <Nav.Link href="#">
                 <Badge pill>New!</Badge>
-                <Link to="/draw" className="h5">
+                <Link to="/draw/create" className="h5">
                   Draw 🎨
                 </Link>
               </Nav.Link>
