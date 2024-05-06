@@ -12,6 +12,7 @@ import appStore from "./store/appStore";
 import SingleNote from "./components/SingleNote";
 import Profile from "./components/Profile";
 import Draw from "./components/Draw";
+import DrawPreview from "./components/DrawPreview";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const appRouter = createBrowserRouter([
@@ -20,11 +21,12 @@ const appRouter = createBrowserRouter([
     element: <App />,
     children: [
       { path: "/", element: <LandingPage /> },
-      { path: "/notes", element: <MyNotesPage /> },
-      { path: "/draw", element: <Draw /> },
       { path: "/:action", element: <SignUpPage /> },
+      { path: "/notes", element: <MyNotesPage /> },
       { path: "/note/:id/:action", element: <SingleNote /> },
       { path: "/userprofile", element: <Profile /> },
+      { path: "/draw/create", element: <Draw /> },
+      { path: "/draw/preview", element: <DrawPreview /> },
     ],
   },
 ]);

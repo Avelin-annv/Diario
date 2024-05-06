@@ -54,7 +54,13 @@ a {
   }
 }
 .canvas-wrapper {
-  border: 5px solid black;
+  border: 5px double black;
   border-radius: 10px;
   min-width: fit-content;
+}
+.canvas-preview {
+  min-height: 70vw;
+}
+.selected-canvas {
+  border: 5px double indianred;
 }

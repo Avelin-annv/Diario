@@ -38,3 +38,4 @@ export const NOTE_HEADERS = {
   edit: "Edit your note",
 };
 export const BLACK_HEX = "#000000";
+export const NOTES_LOCATION = "/notes";

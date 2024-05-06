@@ -1,23 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Stage, Layer, Line, Text } from "react-konva";
-import Konva from "konva";
+import React, { useRef, useState } from "react";
+import { Stage, Layer, Line } from "react-konva";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import MainContainer from "./MainContainer";
 import Button from "react-bootstrap/esm/Button";
-import DrawList from "./DrawList";
-import { imgJson } from "../imgData";
 import { BLACK_HEX } from "../constants";
 import { useDispatch } from "react-redux";
 import { createNewCanvas } from "../store/canvasSlice";
 import { handleError } from "../utils/handleError";
+import { Link, useNavigate } from "react-router-dom";
 
 const Draw = () => {
   const canvasStageRef = useRef(null);
   const isDrawing = React.useRef(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [color, setColor] = useState(BLACK_HEX);
   const [title, setTitle] = useState("");
   const [tool, setTool] = React.useState("pen");
@@ -27,6 +26,7 @@ const Draw = () => {
     try {
       const canvasJson = canvasStageRef.current.toJSON();
       if (canvasJson) dispatch(createNewCanvas({ canvasJson, title }));
+      navigate("/draw/preview");
     } catch (e) {
       handleError(e);
     }
@@ -65,7 +65,7 @@ const Draw = () => {
                   setTool(e.target.value);
                 }}
               >
-                <option value="pen">Pen</option>
+                <option value="pen">Draw</option>
                 <option value="eraser">Eraser</option>
               </select>
             </Col>
@@ -80,8 +80,8 @@ const Draw = () => {
               />
             </Col>
           </Row>
+
           <div className="canvas-wrapper" id="canvas-container">
-            {/* <Container ></Container> */}
             <Stage
               ref={canvasStageRef}
               width={900}
@@ -133,8 +133,11 @@ const Draw = () => {
             </Row>
           </Form>
         </Col>
-        <Col>
-          <DrawList />
+
+        <Col className="align-self-center ">
+          <Link to="/draw/preview">
+            <Button className="p-4 m-4">View your drawings</Button>
+          </Link>
         </Col>
       </Row>
     </MainContainer>

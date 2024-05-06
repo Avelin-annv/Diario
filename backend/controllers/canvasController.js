@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Canvas = require("../models/canvasModel");
 
 const getAllCanvas = asyncHandler(async (req, res) => {
-  const docs = await Canvas.find({ user: req.user._id }).sort("-updatedAt");
+  const docs = await Canvas.find({ user: req.user._id }).sort("-createdAt");
   res.json(docs);
 });
 const createCanvas = asyncHandler(async (req, res) => {
@@ -22,7 +22,7 @@ const createCanvas = asyncHandler(async (req, res) => {
 });
 const deleteCanvas = asyncHandler(async (req, res) => {
   const canvas = await Canvas.findById(req.params.id);
-  if (canvas.createdBy.toString() !== req.user._id.toString()) {
+  if (canvas.user.toString() !== req.user._id.toString()) {
     res.status(401);
     throw new Error("You don't have permission for this action");
   }
