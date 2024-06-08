@@ -45,6 +45,9 @@ a {
   color: white;
   text-decoration: none;
 }
+.text-dark {
+  color: black;
+}
 @media (min-width: 768px) {
   .profile-form {
     width: 50%;

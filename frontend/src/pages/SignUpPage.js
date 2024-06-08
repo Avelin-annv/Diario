@@ -100,7 +100,7 @@ const SignUpPage = () => {
             <div className="my-4 text-center">
               <p>
                 {LANDING_BTN_SUBTEXT[action]}{" "}
-                <Link to={LANDING_NAVIGATE_URLS[action]}>
+                <Link to={LANDING_NAVIGATE_URLS[action]} className="text-dark">
                   {LANDING_NAVIGATE_BTN_TEXT[action]}
                 </Link>
               </p>
