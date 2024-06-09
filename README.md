@@ -6,7 +6,6 @@
 
 [ Demo](https://diario-7zkb.onrender.com)
 
-
 </div>
 
 ## Build With
@@ -16,21 +15,18 @@
 - `Node JS`
 - `Mongo DB`
 - `Express JS`
-- Canvas API
-
+- `React-konva`
 
 ## Features:
 
-- Authentication 
+- Authentication
 - Create notes.
 - Supports markdown.
 - Saving and retrieving notes.
 - Freehand drawing enabled.
 - Responsive
 
-
 ## Installation and Usage
-
 
 ### Install Dependencies
 
@@ -39,8 +35,8 @@
 In the backend directory, you can run:
 
 ### npm start
-Runs the server at [http://localhost:4000]
 
+Runs the server at [http://localhost:4000]
 
 In the frontend directory, you can run:
 

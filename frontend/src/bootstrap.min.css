@@ -11759,7 +11759,7 @@ fieldset:disabled .btn {
 .navbar {
   border-style: solid;
   border-width: 2px;
-  border-radius: 25px 25px 55px 5px/5px 55px 25px 25px;
+  border-radius: 0px;
 }
 .navbar.bg-light {
   border-color: #333;

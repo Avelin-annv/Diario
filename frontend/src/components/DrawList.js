@@ -33,8 +33,9 @@ const DrawList = () => {
     <>
       {canvases.length > 0 ? (
         <>
-          {canvases?.map((canvas, index) => (
+          {canvases?.map((canvas) => (
             <Card
+              key={canvas._id}
               className={
                 selectedCanvas?._id === canvas?._id ? "selected-canvas" : ""
               }
