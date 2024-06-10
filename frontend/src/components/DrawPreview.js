@@ -37,10 +37,7 @@ const DrawPreview = () => {
 
         <Col lg={9}>
           {canvases?.length > 0 && (
-            <div
-              className="canvas-wrapper canvas-preview"
-              id="canvas-container"
-            />
+            <div className=" canvas-preview" id="canvas-container" />
           )}
         </Col>
       </Row>

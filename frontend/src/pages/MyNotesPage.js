@@ -55,7 +55,7 @@ const MyNotesPage = () => {
           </Button>
 
           <Accordion className="">
-            {notes.filter(searchNotes).map((note, index) => (
+            {notes?.filter(searchNotes).map((note, index) => (
               <Accordion.Item eventKey={index} key={note._id} className="my-2">
                 <Card>
                   <Accordion.Header>

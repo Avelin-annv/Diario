@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Line } from "react-konva";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import MainContainer from "./MainContainer";
 import Button from "react-bootstrap/esm/Button";
-import { BLACK_HEX } from "../constants";
+import { BLACK_HEX, CANVAS_RATIO, DEFAULT_STAGE_WIDTH } from "../constants";
 import { useDispatch } from "react-redux";
 import { createNewCanvas } from "../store/canvasSlice";
 import { handleError } from "../utils/handleError";
@@ -17,6 +17,7 @@ const Draw = () => {
   const isDrawing = React.useRef(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [scale, setScale] = useState(1);
   const [color, setColor] = useState(BLACK_HEX);
   const [title, setTitle] = useState("");
   const [tool, setTool] = React.useState("pen");
@@ -52,6 +53,16 @@ const Draw = () => {
   const handleMouseUp = () => {
     isDrawing.current = false;
   };
+  const handleResize = () => {
+    let newscale = (CANVAS_RATIO * window.innerWidth) / DEFAULT_STAGE_WIDTH;
+    setScale(newscale);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <MainContainer title={"Create your drawings"} className="bg-black">
@@ -69,6 +80,7 @@ const Draw = () => {
                 <option value="eraser">Eraser</option>
               </select>
             </Col>
+
             <Col>
               <Form.Control
                 type="color"
@@ -79,12 +91,19 @@ const Draw = () => {
                 onChange={(e) => setColor(e.target.value)}
               />
             </Col>
+            <Col md={6}>
+              <Link to="/draw/preview">
+                <Button className="p-4 my-1">View your drawings</Button>
+              </Link>
+            </Col>
           </Row>
 
           <div className="canvas-wrapper" id="canvas-container">
             <Stage
               ref={canvasStageRef}
-              width={900}
+              scaleX={scale}
+              scaleY={scale}
+              width={CANVAS_RATIO * window.innerWidth}
               height={window.innerHeight}
               onMouseDown={handleMouseDown}
               onMousemove={handleMouseMove}
@@ -132,12 +151,6 @@ const Draw = () => {
               </Col>
             </Row>
           </Form>
-        </Col>
-
-        <Col className="align-self-center ">
-          <Link to="/draw/preview">
-            <Button className="p-4 m-4">View your drawings</Button>
-          </Link>
         </Col>
       </Row>
     </MainContainer>
