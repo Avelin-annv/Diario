@@ -46,27 +46,29 @@ const Header = ({ searchText, setSearchText }) => {
                 </Row>
               </Form>
             </Nav>
-            <Nav className="">
-              <Nav.Link href="#">
-                <Badge pill>New!</Badge>
-                <Link to="/draw/create" className="h5">
-                  Draw 🎨
-                </Link>
-              </Nav.Link>
-
-              <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                <NavDropdown.Item>
-                  <Link to={"/userProfile"} className="text-black">
-                    Profile
+            {location.pathname.includes("/note") && (
+              <Nav className="">
+                <Nav.Link href="#">
+                  <Badge pill>New!</Badge>
+                  <Link to="/draw/create" className="h5">
+                    Draw 🎨
                   </Link>
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
+                </Nav.Link>
 
-                <NavDropdown.Item href="/" onClick={handleLogout}>
-                  Logout
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
+                <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                  <NavDropdown.Item>
+                    <Link to={"/userProfile"} className="text-black">
+                      Profile
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+
+                  <NavDropdown.Item href="/" onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+            )}
           </Navbar.Collapse>
         )}
       </Container>

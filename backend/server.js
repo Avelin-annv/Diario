@@ -12,20 +12,19 @@ connectDB();
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 5000;
+
+app.use("/api/notes", notesRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/canvas", canvasRoutes);
 // -----Deployment------
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
   app.get("*", (_, res) =>
     res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
   );
-} else {
-  app.get("/", (_, res) => res.send("Api is running"));
-}
+} else app.get("/", (_, res) => res.send("Api is running"));
 
 // -----Deployment------
-app.use("/api/notes", notesRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/canvas", canvasRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

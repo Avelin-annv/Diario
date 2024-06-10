@@ -28,6 +28,7 @@ const appRouter = createBrowserRouter([
       { path: "/draw/create", element: <Draw /> },
       { path: "/draw/preview", element: <DrawPreview /> },
     ],
+    errorElement: <Error />,
   },
 ]);
 
