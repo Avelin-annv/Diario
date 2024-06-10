@@ -20,18 +20,17 @@ const Header = ({ searchText, setSearchText }) => {
     localStorage.removeItem("userInfo");
     dispatch(logoutUser);
   };
-  console.log("loccc", location);
   return (
     <Navbar expand="lg" className="bg-primary" variant="dark">
       <Container>
         <Navbar.Brand href="#">
-          <Link to={"/notes"}>Diario</Link>
+          {userInfo ? <Link to={"/notes"}>Diario</Link> : "Diario"}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         {userInfo && (
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="m-auto">
-              <Form inline className="header-search">
+              <Form className="header-search">
                 <Row>
                   {location.pathname === NOTES_LOCATION && (
                     <Col xs="auto" className="w-100">
@@ -56,7 +55,7 @@ const Header = ({ searchText, setSearchText }) => {
               </Nav.Link>
 
               <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                <NavDropdown.Item href="#">
+                <NavDropdown.Item>
                   <Link to={"/userProfile"} className="text-black">
                     Profile
                   </Link>

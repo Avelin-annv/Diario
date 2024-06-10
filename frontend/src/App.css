@@ -63,6 +63,10 @@ a {
 }
 .canvas-preview {
   min-height: 70vw;
+  border: 5px double black;
+  border-radius: 10px;
+  max-width: "-webkit-fill-available";
+  overflow-x: auto;
 }
 .selected-canvas {
   border: 5px double indianred;

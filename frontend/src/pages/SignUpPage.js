@@ -6,7 +6,6 @@ import "../App.css";
 import Loader from "../components/Loader";
 import Toast from "../components/Toast";
 import {
-  CONFIG,
   LANDING_BTN_SUBTEXT,
   LANDING_BTN_TEXT,
   LANDING_HEADER,
@@ -26,6 +25,11 @@ const SignUpPage = () => {
   const { action } = useParams();
   const { userInfo, status, errors } = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const clearFields = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData =
@@ -100,7 +104,11 @@ const SignUpPage = () => {
             <div className="my-4 text-center">
               <p>
                 {LANDING_BTN_SUBTEXT[action]}{" "}
-                <Link to={LANDING_NAVIGATE_URLS[action]} className="text-dark">
+                <Link
+                  to={LANDING_NAVIGATE_URLS[action]}
+                  className="text-dark"
+                  onClick={clearFields}
+                >
                   {LANDING_NAVIGATE_BTN_TEXT[action]}
                 </Link>
               </p>

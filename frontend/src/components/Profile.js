@@ -52,7 +52,7 @@ const Profile = () => {
         <Form.Group className="mb-3" controlId="username">
           <Form.Label>User name</Form.Label>
           <Form.Control
-            type="string"
+            type="text"
             placeholder="Enter your user name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -61,7 +61,7 @@ const Profile = () => {
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
-            type="string"
+            type="text"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

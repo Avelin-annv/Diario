@@ -39,3 +39,5 @@ export const NOTE_HEADERS = {
 };
 export const BLACK_HEX = "#000000";
 export const NOTES_LOCATION = "/notes";
+export const CANVAS_RATIO = 0.8;
+export const DEFAULT_STAGE_WIDTH = 800;

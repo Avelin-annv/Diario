@@ -98,7 +98,7 @@ const SingleNote = () => {
               <Form.Group className="mb-3" controlId="notecategory">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
-                  type="string"
+                  type="text"
                   placeholder="Enter your note's title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -108,7 +108,7 @@ const SingleNote = () => {
               <Form.Group className="mb-3" controlId="notecategory">
                 <Form.Label>Category</Form.Label>
                 <Form.Control
-                  type="string"
+                  type="text"
                   placeholder="Enter your note's category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
@@ -120,7 +120,7 @@ const SingleNote = () => {
 
                 <Form.Control
                   as="textarea"
-                  type="string"
+                  type="text"
                   rows={8}
                   placeholder="Start writing down!"
                   value={content}
