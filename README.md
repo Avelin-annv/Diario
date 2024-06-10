@@ -30,7 +30,7 @@
 
 ### Install Dependencies
 
-`npm install`
+Do `npm install` in the root folder and frontend folder
 
 In the backend directory, you can run:
 
@@ -51,3 +51,8 @@ You will also see any lint errors in the console.
 ### npm run build
 
 Builds the app for production to the `build` folder.\
+
+### npm run dev
+
+Starts the backend server and frontend simultaneously.
+
