@@ -13,6 +13,7 @@ import SingleNote from "./components/SingleNote";
 import Profile from "./components/Profile";
 import Draw from "./components/Draw";
 import DrawPreview from "./components/DrawPreview";
+import Error from "./components/Error";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const appRouter = createBrowserRouter([
